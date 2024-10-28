@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "394995883387",
+    "project_id": "sewa-c2c4d",
+    "storage_bucket": "sewa-c2c4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:394995883387:android:bb0d945da56790d6bbf1de",
+        "android_client_info": {
+          "package_name": "com.example.sewa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCr6csMyY8T1KdLaNzrQDhZji73GJalBQY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
