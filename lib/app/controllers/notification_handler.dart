@@ -8,7 +8,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 }
 
 class FirebaseMessagingHandler {
-  FirebaseMessaging Messaging = FirebaseMessaging.instance;
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   final androidchannel = const AndroidNotificationChannel(
     'channel_notification',
@@ -20,7 +20,7 @@ class FirebaseMessagingHandler {
   final localnotification = FlutterLocalNotificationsPlugin();
 
   Future<void> initPushNotification() async {
-    NotificationSettings settings = await Messaging.requestPermission(
+    NotificationSettings settings = await messaging.requestPermission(
         alert: true,
         announcement: false,
         badge: true,
@@ -31,8 +31,8 @@ class FirebaseMessagingHandler {
 
     print('User granted permission: $settings.authorizationStatus');
 
-    Messaging.getToken().then((token) {
-      print('FCM Token:${token}');
+    messaging.getToken().then((token) {
+      print('FCM Token:$token');
     });
 
     FirebaseMessaging.instance.getInitialMessage().then((message) {

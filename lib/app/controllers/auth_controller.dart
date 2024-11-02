@@ -1,12 +1,15 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:sewa/app/modules/login/views/login_view.dart';
+import '../modules/home/views/homepage_view.dart';
 import '../modules/signup/views/Verifyemail_view.dart';
 import '../routes/app_pages.dart';
 
 class AuthController extends GetxController {
-  FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Stream<User?> get streamAuthStatus => auth.authStateChanges();
 
@@ -21,7 +24,7 @@ class AuthController extends GetxController {
       );
       Get.snackbar('Success', 'Login Successful',
           backgroundColor: Colors.green);
-      Get.offAllNamed(Routes.HOME);
+      Get.to(HomepageView());
     } on FirebaseAuthException catch (e) {
       Get.snackbar('Error', 'Login Failed:$e', backgroundColor: Colors.red);
       if (e.code == 'user-not-found') {
@@ -37,15 +40,33 @@ class AuthController extends GetxController {
     Get.offAllNamed(Routes.LOGIN);
   }
 
-  Future<void> EmailVerify(String email) async {
+  Future<void> emailVerify(String email) async {
     try {
       UserCredential usercredential = await auth.createUserWithEmailAndPassword(
         email: email,
         password: 'password',
       );
+
+      await _firestore.collection('users').doc(usercredential.user!.uid).set(
+          {
+            'uid': usercredential.user!.uid,
+            'email' : email,
+            'createdAt' : FieldValue.serverTimestamp(),
+          });
+
       await usercredential.user!.sendEmailVerification();
       Get.snackbar('Success', 'Email verifikasi telah dikirim. Silakan periksa email Anda.');
-      Get.offAll(VerifyEmailView());
+      Get.to(VerifyEmailView());
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar('Error', 'Error:$e');
+    }
+  }
+
+  Future<void> forgetPass(String email) async {
+    try{
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      Get.snackbar("Success", "Password reset email sent.");
+      Get.to(const LoginView());
     } on FirebaseAuthException catch (e) {
       Get.snackbar('Error', 'Error:$e');
     }

@@ -1,4 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:sewa/app/modules/home/controllers/home_controller.dart';
+import 'package:sewa/app/modules/signup/controllers/userprofile_service.dart';
+import 'package:sewa/app/modules/signup/views/fillingbirthdate_view.dart';
 
 class UserinfoView extends StatefulWidget {
   const UserinfoView({super.key});
@@ -10,6 +16,24 @@ class UserinfoView extends StatefulWidget {
 class _UserinfoViewState extends State<UserinfoView> {
   final TextEditingController firstnamecontrol = TextEditingController();
   final TextEditingController lastnamecontrol = TextEditingController();
+  final UserProfileService profileService = UserProfileService();
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
+  Future<void> saveFullName() async {
+    final String firstName = firstnamecontrol.text.trim();
+    final String lastName = lastnamecontrol.text.trim();
+    final String fullName = "$firstName $lastName"; // Merging first and last name
+    final userId = auth.currentUser?.uid;
+
+    // Save to Firestore under 'name' field
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userId)
+        .set({
+      'name': fullName,
+    }, SetOptions(merge: true)); // Using merge to avoid overwriting existing fields
+    Get.offAll(FillingbirthdateView());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,6 +44,7 @@ class _UserinfoViewState extends State<UserinfoView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(height: 50),
               const Text(
                 'Lastly, tell us more about yourself',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -50,7 +75,7 @@ class _UserinfoViewState extends State<UserinfoView> {
               // Sign in Button
               ElevatedButton(
                 onPressed: () async {
-                //   data ke Firestore
+                  saveFullName();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.brown, // Background color

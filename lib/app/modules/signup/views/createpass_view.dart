@@ -24,7 +24,7 @@ class _CreatePassViewState extends State<CreatePassView> {
     String password = _passwordController.text.trim();
     if (password.isNotEmpty && _isValidPassword(password)) {
       FirebaseAuth.instance.currentUser?.updatePassword(password);
-      Get.offAll(() => const PassCreatedView());
+      Get.offAll(() => PassCreatedView());
     } else {
       Get.snackbar(
         "Invalid Password",
@@ -85,8 +85,10 @@ class _CreatePassViewState extends State<CreatePassView> {
             const Spacer(),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.brown.shade300,
+                backgroundColor: Colors.brown,
                 padding: const EdgeInsets.symmetric(vertical: 16),
+                minimumSize:
+                const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
@@ -99,6 +101,7 @@ class _CreatePassViewState extends State<CreatePassView> {
                 ),
               ),
             ),
+            const SizedBox(height: 10),
           ],
         ),
       ),

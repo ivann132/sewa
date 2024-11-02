@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewa/app/modules/splash/views/splash03.dart';
 
-import '../../../routes/app_pages.dart';
-
 class Splash02 extends StatelessWidget {
   const Splash02({super.key});
 

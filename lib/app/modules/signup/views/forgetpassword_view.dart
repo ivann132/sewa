@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../controllers/auth_controller.dart';
 
-class SignupView extends StatefulWidget {
-  const SignupView({super.key});
+class forgetPasswordView extends StatefulWidget {
+  const forgetPasswordView({super.key});
 
   @override
-  _SignupViewState createState() => _SignupViewState();
+  State<forgetPasswordView> createState() => _forgetPasswordViewState();
 }
 
-class _SignupViewState extends State<SignupView> {
+class _forgetPasswordViewState extends State<forgetPasswordView> {
   final TextEditingController emailControl = TextEditingController();
   final authControl = Get.find<AuthController>();
 
@@ -33,7 +34,7 @@ class _SignupViewState extends State<SignupView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Sign Up',
+                'Forget Password?',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 20),
@@ -52,7 +53,7 @@ class _SignupViewState extends State<SignupView> {
               ElevatedButton(
                 onPressed: () async {
                   try {
-                    await authControl.emailVerify(
+                    await authControl.forgetPass(
                         emailControl.text);
                   } catch (error) {
                     print("Error during registration: $error");

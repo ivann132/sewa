@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewa/app/modules/signup/views/createpass_view.dart';
-import 'package:sewa/app/routes/app_pages.dart';
 
 class EmailVerifiedView extends StatelessWidget {
   const EmailVerifiedView({super.key});
@@ -35,12 +34,14 @@ class EmailVerifiedView extends StatelessWidget {
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.brown,
                   padding: const EdgeInsets.symmetric(vertical: 16),
+                  minimumSize:
+                  const Size(double.infinity, 50),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 onPressed: () {
-                  Get.offAll(() => const CreatePassView());
+                  Get.to(const CreatePassView());
                 },
                 child: const Text(
                   'Continue',

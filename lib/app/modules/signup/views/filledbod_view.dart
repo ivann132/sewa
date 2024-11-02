@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sewa/app/modules/signup/controllers/userprofile_service.dart';
-import 'package:sewa/app/modules/signup/views/userinfo_view.dart';
+import 'package:sewa/app/modules/login/views/login_view.dart';
+import 'package:sewa/app/modules/signup/views/createpass_view.dart';
 
-class PassCreatedView extends StatelessWidget {
-  PassCreatedView({super.key});
-  final profil = Get.put(UserProfileService());
+class FilledbodView extends StatelessWidget {
+  const FilledbodView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -23,12 +32,12 @@ class PassCreatedView extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               const Text(
-                'Password created',
+                'All Done!',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 8),
               const Text(
-                'Your password has been created',
+                "Your account has been created. You're now ready to explore and enjoy all the features and benefits we have to offer.",
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 40),
@@ -43,10 +52,10 @@ class PassCreatedView extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  Get.offAll(UserinfoView());
+                  Get.offAll(() => const LoginView());
                 },
                 child: const Text(
-                  'Continue',
+                  'Start exploring App',
                   style: TextStyle(color: Colors.white),
                 ),
               ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sewa/app/modules/signup/views/forgetpassword_view.dart';
 
 import '../../../controllers/auth_controller.dart';
 import '../../../routes/app_pages.dart';
-import '../controllers/login_controller.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -80,7 +80,9 @@ class _LoginViewState extends State<LoginView> {
               Align(
                 alignment: Alignment.centerRight,
                 child: TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.to(const forgetPasswordView());
+                    },
                   child: const Text('Forgot Password?', style: TextStyle(color: Colors.black),),
                 ),
               ),

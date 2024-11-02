@@ -48,7 +48,7 @@ class VerifyEmailView extends StatelessWidget {
             ),
             const Spacer(),
             TextButton(
-              onPressed: () => Get.back(),
+              onPressed: () { Get.back();},
               child: const Text(
                 'I’ll do it later',
                 style: TextStyle(color: Colors.brown),
@@ -58,9 +58,11 @@ class VerifyEmailView extends StatelessWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.brown,
-                padding: EdgeInsets.symmetric(vertical: 16),
+                padding: const EdgeInsets.symmetric(vertical: 16),
+                minimumSize:
+                const Size(double.infinity, 50),
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
               onPressed: () async {
@@ -75,7 +77,7 @@ class VerifyEmailView extends StatelessWidget {
               },
               child: const Text(
                 'Open email',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontSize: 18),
               ),
             ),
             const SizedBox(height: 16),
