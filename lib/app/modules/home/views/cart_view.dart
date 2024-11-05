@@ -18,9 +18,6 @@ class CartView extends StatelessWidget {
           appBar: AppBar(elevation: 0,
             title: Text("cart"),
             backgroundColor: Colors.transparent,
-            actions: [
-              IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),onPressed: () {Get.back();},)],
           ),
           body: Column(
             children: [
@@ -35,6 +32,7 @@ class CartView extends StatelessWidget {
                       return Container(
                         decoration: BoxDecoration(color: Colors.grey[500], borderRadius: BorderRadius.circular(8)),margin: EdgeInsets.only(left: 20,top: 20, right: 20),
                         child: ListTile(
+
                           title: Text(productName, style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.bold),),
                           subtitle: Text(productPrice,style: TextStyle(color: Colors.grey[800]),),
                           trailing: IconButton(onPressed: () => removeFromCartcar(product), icon: Icon(Icons.delete)),

@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sewa/app/modules/home/views/cart_view.dart';
+import 'package:sewa/app/modules/home/views/editprofile_view.dart';
+import 'package:sewa/app/modules/home/views/notif_view.dart';
 
 import '../../../controllers/auth_controller.dart';
 
 class ProfileView extends StatelessWidget {
-  final String userId;
-  const ProfileView({super.key, required this.userId});
+  const ProfileView({super.key,});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ProfileView extends StatelessWidget {
         title: const Text("Profil"),
       ),
       body: FutureBuilder<DocumentSnapshot>(
-        future: FirebaseFirestore.instance.collection('users').doc(userId).get(),
+        future: FirebaseFirestore.instance.collection('users').doc(authControl.auth.currentUser?.uid).get(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -50,7 +52,7 @@ class ProfileView extends StatelessWidget {
                 const SizedBox(height: 40,),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Logic untuk ganti profil
+                    Get.to(EditprofileView());
                   },
                   icon: const Icon(Icons.edit),
                   label: const Text('Ganti Profil'),
@@ -58,7 +60,7 @@ class ProfileView extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Logic untuk my cart
+                    Get.to(CartView());
                   },
                   icon: const Icon(Icons.shopping_cart),
                   label: const Text('My Cart'),
@@ -66,7 +68,7 @@ class ProfileView extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Logic untuk notifikasi
+                    Get.to(NotifView());
                   },
                   icon: const Icon(Icons.notifications),
                   label: const Text('Notification'),

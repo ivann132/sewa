@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewa/app/modules/login/views/login_view.dart';
-import 'package:sewa/app/modules/signup/views/createpass_view.dart';
 
 class FilledbodView extends StatelessWidget {
   const FilledbodView({super.key});

@@ -24,7 +24,7 @@ class AuthController extends GetxController {
       );
       Get.snackbar('Success', 'Login Successful',
           backgroundColor: Colors.green);
-      Get.to(HomepageView());
+      Get.offAll(HomepageView());
     } on FirebaseAuthException catch (e) {
       Get.snackbar('Error', 'Login Failed:$e', backgroundColor: Colors.red);
       if (e.code == 'user-not-found') {

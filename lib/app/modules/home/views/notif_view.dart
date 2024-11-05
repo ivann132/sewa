@@ -14,9 +14,6 @@ class NotifView extends StatelessWidget {
           children: [
             Text("Notifikasi", style: TextStyle(fontSize: 14, color: Colors.black),),
           ],),
-        actions: [
-          IconButton(onPressed: () {Get.back();}, icon: const Icon(Icons.arrow_back))
-        ],
       ),
     );
   }

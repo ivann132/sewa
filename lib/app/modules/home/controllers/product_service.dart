@@ -23,7 +23,7 @@ class ProductService {
   Future<List<Product>> fetchProductsByCategory(String category) async {
     try {
       QuerySnapshot snapshot = await _firestore
-          .collection('products')
+          .collection('product')
           .where('category', isEqualTo: category)
           .get();
 
@@ -33,5 +33,6 @@ class ProductService {
       return [];
     }
   }
+
 
 }

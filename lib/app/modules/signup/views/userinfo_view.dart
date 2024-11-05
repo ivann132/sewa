@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:sewa/app/modules/home/controllers/home_controller.dart';
 import 'package:sewa/app/modules/signup/controllers/userprofile_service.dart';
 import 'package:sewa/app/modules/signup/views/fillingbirthdate_view.dart';
 
