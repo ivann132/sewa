@@ -9,21 +9,21 @@ class UserProfileService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<String?> getUserLocation() async {
-    String? location;
-    String? nama;
-    try {
-      final userId = _auth.currentUser?.uid;
-      if (userId != null) {
-        DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
-        location = userDoc['location'];
-        nama = userDoc['name'];
-      }
-    } catch (e) {
-      print(e);
-    }
-    return null;
-  }
+  // Future<String> getUserLocation() async {
+  //   String location;
+  //   String nama;
+  //   try {
+  //     final userId = _auth.currentUser?.uid;
+  //     if (userId != null) {
+  //       DocumentSnapshot userDoc = await _firestore.collection('users').doc(userId).get();
+  //       location = userDoc['location'];
+  //       nama = userDoc['name'];
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  //   return null;
+  // }
 
   Future<void> checkProfileCompletion(firstname, lastname) async {
     final userId = _auth.currentUser?.uid;
