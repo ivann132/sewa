@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewa/app/modules/home/controllers/home_controller.dart';
 import 'package:sewa/app/modules/home/views/checkout_view.dart';
-import '../../../data/product.dart';
 
 class CartView extends StatelessWidget {
   CartView({super.key});
