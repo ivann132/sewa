@@ -21,8 +21,8 @@ class ProductTile extends StatelessWidget {
         color: Colors.grey[100],
         borderRadius: BorderRadius.circular(20),
       ),
-      margin: EdgeInsets.all(4),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      margin: const EdgeInsets.all(4),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [

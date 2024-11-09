@@ -19,7 +19,7 @@ class CategoryIcon extends StatelessWidget {
             child: Icon(icon, color: Colors.black),
           ),
           const SizedBox(height: 5),
-          Text(name, style: TextStyle(fontSize: 12)),
+          Text(name, style: const TextStyle(fontSize: 12)),
         ],
       ),
     );

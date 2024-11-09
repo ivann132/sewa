@@ -9,11 +9,12 @@ class HomeController extends GetxController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final _productService = ProductService();
   List<Product> productMenu = [];
-  List<Product> cart = [];
+  var cart = <Product>[].obs;
   List<Product> productsearch = [];
   var itemCount = 0.obs;
-  double get totalPrice => cart.fold(0, (sum, item) => sum + (item.price * item.quantity));
   final user = FirebaseAuth.instance.currentUser;
+
+  double get calculateTotal => cart.fold(0, (sum, item) => sum + (item.price * item.quantity));
 
 
   @override
@@ -50,15 +51,24 @@ class HomeController extends GetxController {
   }
 
   Future<void> addToCart (Product productitem) async {
-    cart.add(productitem);
+    int index = cart.indexWhere((item) => item == productitem);
+    if (index >= 0) {
+      // Jika produk sudah ada di cart, tambahkan quantity-nya
+      cart[index].quantity += 1;
+      cart.refresh();  // Memperbarui UI setelah mengubah quantity
+    } else {
+      // Jika produk belum ada di cart, tambahkan produk ke cart
+      productitem.quantity = 1;
+      cart.add(productitem);
+    }
     itemCount.value = cart.length;
-    update();
     await saveCartToFirestore();
   }
 
   Future<void> removeFromCart (Product productitem) async {
     cart.remove(productitem);
     itemCount.value = cart.length;
+    cart.refresh();
     update();
     await saveCartToFirestore();
   }
@@ -68,14 +78,14 @@ class HomeController extends GetxController {
     if (user != null) {
       await _firestore.collection('users').doc(user.uid).update({
         'items': cart,
-        'totalPrice': totalPrice,
+        'totalPrice': calculateTotal,
       });
     }
   }
 
   void increaseQuantity(int index) {
     cart[index].quantity++;
-    totalPrice;
+    cart.refresh();
     update();
     saveCartToFirestore();
   }
@@ -83,7 +93,7 @@ class HomeController extends GetxController {
   void decreaseQuantity(int index) {
     if (cart[index].quantity > 1) {
       cart[index].quantity--;
-      totalPrice;
+      cart.refresh();
       update();
       saveCartToFirestore();
     }

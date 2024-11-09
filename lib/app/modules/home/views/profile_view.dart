@@ -69,7 +69,7 @@ class _ProfileViewState extends State<ProfileView> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => EditprofileView()),);
+                  MaterialPageRoute(builder: (context) => const EditprofileView()),);
                 },
               title: const Text('Ganti Profil'),
               leading: const Icon(Icons.person),

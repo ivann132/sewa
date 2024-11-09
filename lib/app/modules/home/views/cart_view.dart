@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:sewa/app/modules/home/controllers/home_controller.dart';
 import 'package:sewa/app/modules/home/views/checkout_view.dart';
 
@@ -12,7 +13,7 @@ class CartView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.grey[300],
           appBar: AppBar(elevation: 0,
-            title: Text("cart"),
+            title: const Text("cart"),
             backgroundColor: Colors.transparent,
           ),
           body: Column(
@@ -26,7 +27,7 @@ class CartView extends StatelessWidget {
                       final int productPrice = product.price;
 
                       return Container(
-                        decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8)),margin: EdgeInsets.only(left: 20,top: 20, right: 20), padding: EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8)),margin: const EdgeInsets.only(left: 20,top: 20, right: 20), padding: const EdgeInsets.all(8.0),
                         child: ListTile(leading: Image.asset(product.imageUrl),
                           title: Text(productName, style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.bold),),
                           subtitle: Text('Rp $productPrice /24 Jam',style: TextStyle(color: Colors.grey[800]),),
@@ -34,27 +35,27 @@ class CartView extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               IconButton(
-                                icon: Icon(Icons.remove),
+                                icon: const Icon(Icons.remove),
                                 onPressed: () {
                                   controller.decreaseQuantity(index);
                                 },
                               ),
                               Text(product.quantity.toString()),
                               IconButton(
-                                icon: Icon(Icons.add),
+                                icon: const Icon(Icons.add),
                                 onPressed: () {
                                   controller.increaseQuantity(index);
                                 },
                               ),
                               IconButton(
-                                icon: Icon(Icons.delete),
+                                icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   controller.removeFromCart(product);
                                 },
                               ),
                             ],
                           ),
-                          contentPadding: EdgeInsets.symmetric(vertical: 8.0),
+                          contentPadding: const EdgeInsets.symmetric(vertical: 8.0),
                         ),
                       );
 
@@ -64,23 +65,17 @@ class CartView extends StatelessWidget {
               ),
 
               Container(
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
+                padding: const EdgeInsets.all(16.0),
+                decoration: const BoxDecoration(
                   border: Border(top: BorderSide(color: Colors.grey)),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text("Order Summary", style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text("Total"),
-                        Text("Rp. ${homecontrol.totalPrice}"),
-                      ],
-                    ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 10),
+                    _buildOrderSummary(),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: () async {
                         Get.to(CheckoutPage());
@@ -102,10 +97,34 @@ class CartView extends StatelessWidget {
                   ],
                 ),
               ),
-
-
             ],
           ),
         );
+  }
+
+  Widget _buildOrderSummary() {
+    final currencyFormatter = NumberFormat.currency(locale: 'id', symbol: 'Rp. ', decimalDigits: 0);
+    return Obx(() {
+      final totalPrice = currencyFormatter.format(homecontrol.calculateTotal);
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSummaryRow("Total", totalPrice, isBold: true),
+        ],
+      );
+    });
+  }
+
+  Widget _buildSummaryRow(String label, String amount, {bool isBold = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label, style: TextStyle(fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
+          Text(amount, style: TextStyle(fontWeight: isBold ? FontWeight.bold : FontWeight.normal)),
+        ],
+      ),
+    );
   }
 }

@@ -7,38 +7,40 @@ import '../controllers/checkout_controller.dart';
 class CheckoutPage extends StatelessWidget {
   final controller = Get.put(CheckoutController());
 
+  CheckoutPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Checkouts'),
+        title: const Text('Checkouts'),
       ),
       body: Obx(() {
         return SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Display list of products
-              Text("Delivery to: Salatiga City, Central Java"),
-              SizedBox(height: 16),
+              const Text("Delivery to: Salatiga City, Central Java"),
+              const SizedBox(height: 16),
               ListView.builder(
                 shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: controller.items.length,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.homecontrol.cart.length,
                 itemBuilder: (context, index) {
-                  final item = controller.items[index];
+                  final item = controller.homecontrol.cart[index];
                   return ListTile(
-                    leading: Image.network(item['image_url']),
-                    title: Text(item['name']),
-                    subtitle: Text("Rp. ${item['price']}"),
-                    trailing: Text("1 quantity"),
+                    leading: Image.asset(item.imageUrl),
+                    title: Text(item.namaproduct),
+                    subtitle: Text("Rp. ${item.price}"),
+                    trailing: Text("${item.quantity} quantity"),
                   );
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextField(
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   labelText: 'Apply a discount',
                   suffixIcon: Icon(Icons.discount),
                 ),
@@ -47,7 +49,7 @@ class CheckoutPage extends StatelessWidget {
                   controller.discount.value = value.isNotEmpty ? double.parse(value) : 0.0;
                 },
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               TextButton(
                 onPressed: () => _showDeliveryOptions(context),
                 child: Row(
@@ -55,41 +57,41 @@ class CheckoutPage extends StatelessWidget {
                   children: [
                     Text(
                       controller.selectedDelivery.value.isEmpty ? "Select the delivery" : controller.selectedDelivery.value,
-                      style: TextStyle(color: Colors.black),
+                      style: const TextStyle(color: Colors.black),
                     ),
-                    Icon(Icons.arrow_drop_down),
+                    const Icon(Icons.arrow_drop_down),
                   ],
                 ),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 8),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Apply a rental period (days)'),
+                  const Text('Apply a rental period (days)'),
                   Row(
                     children: [
                       IconButton(
                         onPressed: () => controller.rentalPeriod.value--,
-                        icon: Icon(Icons.remove),
+                        icon: const Icon(Icons.remove),
                       ),
                       Obx(() => Text(controller.rentalPeriod.value.toString())),
                       IconButton(
                         onPressed: () => controller.rentalPeriod.value++,
-                        icon: Icon(Icons.add),
+                        icon: const Icon(Icons.add),
                       ),
                     ],
                   ),
                 ],
               ),
-              Divider(),
+              const Divider(),
               // Order Summary
-              Text(
+              const Text(
                 "Order Summary",
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              SizedBox(height: 8),
+              const SizedBox(height: 20),
               _buildOrderSummary(),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () async {
                   Get.to(PaymentMethodPage());
@@ -123,16 +125,16 @@ class CheckoutPage extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: Text("Mobil"),
-              trailing: Text("Rp 8.000"),
+              title: const Text("Mobil"),
+              trailing: const Text("Rp 8.000"),
               onTap: () {
                 controller.selectDelivery("Mobil", 8000);
                 Navigator.pop(context);
               },
             ),
             ListTile(
-              title: Text("Motor"),
-              trailing: Text("Rp 3.000"),
+              title: const Text("Motor"),
+              trailing: const Text("Rp 3.000"),
               onTap: () {
                 controller.selectDelivery("Motor", 3000);
                 Navigator.pop(context);
@@ -151,10 +153,10 @@ class CheckoutPage extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSummaryRow("Total price", currencyFormatter.format(controller.items.fold(0, (sum, item) => sum + (item['price'] as num).toInt()))),
+          _buildSummaryRow("Total order", currencyFormatter.format(controller.homecontrol.cart.fold(0, (sum, item) => sum + (item.price * item.quantity)))),
           _buildSummaryRow("Delivery", currencyFormatter.format(controller.deliveryFee.value)),
           _buildSummaryRow("Marketplace fee", currencyFormatter.format(controller.marketplaceFee.value)),
-          Divider(),
+          const Divider(),
           _buildSummaryRow("Total", totalPrice, isBold: true),
         ],
       );

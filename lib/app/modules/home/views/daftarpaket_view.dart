@@ -9,7 +9,7 @@ import 'package:sewa/app/modules/home/views/product_tile.dart';
 import '../../../data/product.dart';
 
 class DaftarpaketView extends StatefulWidget {
-  DaftarpaketView({super.key});
+  const DaftarpaketView({super.key});
 
   @override
   State<DaftarpaketView> createState() => _DaftarpaketViewState();
@@ -44,8 +44,8 @@ class _DaftarpaketViewState extends State<DaftarpaketView> {
         elevation: 0,
         title: const Text('Kubu Barat Camp', style: TextStyle(fontSize: 18),),
         actions: [
-          IconButton(onPressed: () {Get.to(CartView());}, icon: Icon(Icons.shopping_cart)),
-          IconButton(onPressed: () {Get.to(NotifView());}, icon: Icon(Icons.notifications)),
+          IconButton(onPressed: () {Get.to(CartView());}, icon: const Icon(Icons.shopping_cart)),
+          IconButton(onPressed: () {Get.to(const NotifView());}, icon: const Icon(Icons.notifications)),
         ],
       ),
       body: Column(
