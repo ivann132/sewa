@@ -35,6 +35,8 @@ class FirebaseMessagingHandler {
       print('FCM Token:$token');
     });
 
+
+
     FirebaseMessaging.instance.getInitialMessage().then((message) {
       print("terminatedNotification :${message?.notification?.title}");
     });

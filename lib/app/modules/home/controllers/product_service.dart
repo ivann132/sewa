@@ -11,7 +11,7 @@ class ProductService {
       return querySnapshot.docs.map((doc) => Product(
         namaproduct: doc['namaproduct'],
         imageUrl: doc['imageUrl'],
-        price: doc['price'].toString(),
+        price: doc['price'],
         category: doc['category'],
       )).toList();
     } catch (e) {

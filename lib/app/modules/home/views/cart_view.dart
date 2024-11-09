@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewa/app/modules/home/controllers/home_controller.dart';
+import 'package:sewa/app/modules/home/views/checkout_view.dart';
 import '../../../data/product.dart';
 
 class CartView extends StatelessWidget {
   CartView({super.key});
   final homecontrol = Get.put(HomeController());
-
-  Future<void> removeFromCartcar (Product product) async {
-    homecontrol.removeFromCart(product);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,18 +21,41 @@ class CartView extends StatelessWidget {
               Expanded(
                 child: GetBuilder<HomeController>(
                   builder: (controller) =>
-                    ListView.builder(itemCount: homecontrol.cart.length,itemBuilder: (context, index) {
-                      final Product product = homecontrol.cart[index];
+                    ListView.builder(itemCount: controller.cart.length,itemBuilder: (context, index) {
+                      final product = controller.cart[index];
                       final String productName = product.namaproduct;
-                      final String productPrice = product.price;
+                      final int productPrice = product.price;
 
                       return Container(
-                        decoration: BoxDecoration(color: Colors.grey[500], borderRadius: BorderRadius.circular(8)),margin: EdgeInsets.only(left: 20,top: 20, right: 20),
-                        child: ListTile(
-
+                        decoration: BoxDecoration(color: Colors.grey[200], borderRadius: BorderRadius.circular(8)),margin: EdgeInsets.only(left: 20,top: 20, right: 20), padding: EdgeInsets.all(8.0),
+                        child: ListTile(leading: Image.asset(product.imageUrl),
                           title: Text(productName, style: TextStyle(color: Colors.grey[800], fontWeight: FontWeight.bold),),
-                          subtitle: Text(productPrice,style: TextStyle(color: Colors.grey[800]),),
-                          trailing: IconButton(onPressed: () => removeFromCartcar(product), icon: Icon(Icons.delete)),
+                          subtitle: Text('Rp $productPrice /24 Jam',style: TextStyle(color: Colors.grey[800]),),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.remove),
+                                onPressed: () {
+                                  controller.decreaseQuantity(index);
+                                },
+                              ),
+                              Text(product.quantity.toString()),
+                              IconButton(
+                                icon: Icon(Icons.add),
+                                onPressed: () {
+                                  controller.increaseQuantity(index);
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  controller.removeFromCart(product);
+                                },
+                              ),
+                            ],
+                          ),
+                          contentPadding: EdgeInsets.symmetric(vertical: 8.0),
                         ),
                       );
 
@@ -44,23 +64,47 @@ class CartView extends StatelessWidget {
                 ),
               ),
 
-              ElevatedButton(
-                onPressed: () async {
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.brown, // Background color
-                  padding: const EdgeInsets.symmetric(vertical: 15),
-                  minimumSize:
-                  const Size(double.infinity, 50), // Full-width button
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
+              Container(
+                padding: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  border: Border(top: BorderSide(color: Colors.grey)),
                 ),
-                child: const Text(
-                  'Checkout',
-                  style: TextStyle(fontSize: 18, color: Colors.white),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text("Order Summary", style: TextStyle(fontWeight: FontWeight.bold)),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text("Total"),
+                        Text("Rp. ${homecontrol.totalPrice}"),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () async {
+                        Get.to(CheckoutPage());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.brown, // Background color
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        minimumSize:
+                        const Size(double.infinity, 50), // Full-width button
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: const Text(
+                        'Checkout',
+                        style: TextStyle(fontSize: 18, color: Colors.white),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+
+
             ],
           ),
         );

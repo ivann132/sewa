@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sewa/app/data/product.dart';
+import 'package:sewa/app/modules/home/views/cart_view.dart';
 import 'package:sewa/app/modules/home/views/daftarpaket_view.dart';
 import 'package:sewa/app/modules/home/views/history_view.dart';
 import 'package:sewa/app/modules/home/views/notif_view.dart';
@@ -10,7 +11,7 @@ import 'package:sewa/app/modules/home/views/profile_view.dart';
 import '../../../controllers/auth_controller.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/product_service.dart';
-import 'cart_view.dart';
+import 'Search_page.dart';
 import 'category_icon.dart';
 
 class HomepageView extends StatefulWidget {
@@ -62,7 +63,30 @@ class _HomepageViewState extends State<HomepageView> {
             Text("Kubu Barat Camp", style: TextStyle(fontSize: 14, color: Colors.black),),
           ],),
         actions: [
-          IconButton(onPressed: () => Get.to(CartView()), icon: const Icon(Icons.shopping_cart)),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.shopping_cart),
+                onPressed: () {
+                  Get.to(CartView());
+                  },
+              ),
+              if (homecontrol.itemCount > 0) // Only show count if items are in the cart
+                Positioned(
+                  right: 0,
+                  top: 0,
+                  child: CircleAvatar(
+                    radius: 10,
+                    backgroundColor: Colors.red,
+                    child: Text(
+                      '${homecontrol.itemCount.bitLength}',
+                      style: TextStyle(color: Colors.white, fontSize: 12),
+                    ),
+                  ),
+                ),
+            ],
+          ),
           IconButton(onPressed: () => Get.to(const NotifView()), icon: const Icon(Icons.notifications))
         ],
       ),
@@ -71,7 +95,8 @@ class _HomepageViewState extends State<HomepageView> {
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
+              child: TextField(onChanged: (value) => value,
+                onTap: () => Get.to(SearchPage()),
                 decoration: InputDecoration(
                   focusedBorder: OutlineInputBorder(
                     borderSide: const BorderSide(color: Colors.white),
@@ -80,7 +105,12 @@ class _HomepageViewState extends State<HomepageView> {
                     borderSide: const BorderSide(color: Colors.white),
                     borderRadius: BorderRadius.circular(20),),
                   hintText: "Search here...",
-                  prefixIcon: const Icon(Icons.search),
+                  prefixIcon: IconButton(
+                    icon: const Icon(Icons.search),
+                    onPressed: () {
+                      Get.to(() => SearchPage());
+                    },
+                  ),
                   fillColor: Colors.white,
                   filled: true,),
               ),
@@ -154,9 +184,9 @@ class _HomepageViewState extends State<HomepageView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  TextButton.icon(onPressed: () {Get.back();}, label: const Text('Home'), icon: Icon(Icons.home),),
-                  TextButton.icon(onPressed: () {Get.to(const HistoryView());}, label: const Text('History'), icon: Icon(Icons.history),),
-                  TextButton.icon(onPressed: () {Get.to(const ProfileView());}, label: const Text('Account'), icon: Icon(Icons.person_outline),)
+                  TextButton.icon(onPressed: () {Get.back();}, label: const Text('Home'), icon: const Icon(Icons.home),),
+                  TextButton.icon(onPressed: () {Get.to(OrderHistoryPage());}, label: const Text('History'), icon: const Icon(Icons.history),),
+                  TextButton.icon(onPressed: () {Get.to(const ProfileView());}, label: const Text('Account'), icon: const Icon(Icons.person_outline),)
                 ],
               ),
             )

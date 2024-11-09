@@ -48,7 +48,9 @@ class ProductTile extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            onPressed: () {buttonaddToCart(context);},
+            onPressed: () {
+              buttonaddToCart(context);
+              },
             child: const Text(
               'Add to cart',
               style: TextStyle(color: Colors.white),
