@@ -15,8 +15,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   await Get.putAsync(() async => await SharedPreferences.getInstance());
-  await FirebaseMessagingHandler().initPushNotification();
-  await FirebaseMessagingHandler().initlocalnotification();
+  final firebaseMessagingHandler = FirebaseMessagingHandler();
+  await firebaseMessagingHandler.initPushNotification();
+  await firebaseMessagingHandler.initLocalNotification();
   runApp(MyApp());
 }
 

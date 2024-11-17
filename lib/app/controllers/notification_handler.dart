@@ -1,75 +1,96 @@
 import 'dart:convert';
-
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print('Message received in background:${message.notification?.title}');
+  print('Message received in background: ${message.notification?.title}');
 }
 
 class FirebaseMessagingHandler {
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
+  final FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  final androidchannel = const AndroidNotificationChannel(
-    'channel_notification',
-    'High Importance Notification',
-    description: 'Used For Notification',
-    importance: Importance.defaultImportance,
+  static const AndroidNotificationChannel androidChannel = AndroidNotificationChannel(
+    'channel_notification', // ID for the channel
+    'High Importance Notification', // Channel name
+    description: 'Used For Notification', // Channel description
+    importance: Importance.high,
+    playSound: true,
   );
 
-  final localnotification = FlutterLocalNotificationsPlugin();
+  final FlutterLocalNotificationsPlugin localNotification = FlutterLocalNotificationsPlugin();
 
   Future<void> initPushNotification() async {
+    // Request user permissions
     NotificationSettings settings = await messaging.requestPermission(
-        alert: true,
-        announcement: false,
-        badge: true,
-        carPlay: false,
-        criticalAlert: false,
-        provisional: false,
-        sound: true);
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
 
-    print('User granted permission: $settings.authorizationStatus');
+    print('User granted permission: ${settings.authorizationStatus}');
 
-    messaging.getToken().then((token) {
-      print('FCM Token:$token');
-    });
+    // Retrieve and print FCM token
+    final token = await messaging.getToken();
+    print('FCM Token: $token');
 
-
-
+    // Handle notification when app is terminated
     FirebaseMessaging.instance.getInitialMessage().then((message) {
-      print("terminatedNotification :${message?.notification?.title}");
+      if (message != null) {
+        print('Notification when app is terminated: ${message.notification?.title}');
+      }
     });
 
+    // Set up background message handler
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
+    // Handle foreground messages
     FirebaseMessaging.onMessage.listen((message) {
       final notification = message.notification;
       if (notification == null) return;
-      localnotification.show(
+
+      localNotification.show(
         notification.hashCode,
         notification.title,
         notification.body,
         NotificationDetails(
-            android: AndroidNotificationDetails(
-                androidchannel.id, androidchannel.name,
-                channelDescription: androidchannel.description,
-                icon: '@mipmap/ic_launcher')),
+          android: AndroidNotificationDetails(
+            androidChannel.id,
+            androidChannel.name,
+            channelDescription: androidChannel.description,
+            importance: Importance.high,
+            playSound: true,
+            sound: const RawResourceAndroidNotificationSound('soundringtone'),
+            icon: '@mipmap/ic_launcher',
+          ),
+        ),
         payload: jsonEncode(message.toMap()),
       );
-      print(
-          'Message received while app is in foreground: ${message.notification?.title}');
+
+      print('Message received in foreground: ${notification.title}');
     });
 
+    // Handle notification tap when app is in background or opened
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('Message opened from notifications:$message.notification?.title');
+      print('Notification tapped: ${message.notification?.title}');
     });
   }
 
-  Future initlocalnotification() async {
-    const ios = DarwinInitializationSettings();
-    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const settings = InitializationSettings(android: android, iOS: ios);
-    await localnotification.initialize(settings);
+  Future<void> initLocalNotification() async {
+    // iOS settings
+    const DarwinInitializationSettings iosSettings = DarwinInitializationSettings();
+
+    // Android settings
+    const AndroidInitializationSettings androidSettings = AndroidInitializationSettings('@mipmap/ic_launcher');
+
+    // Initialize local notifications
+    const InitializationSettings settings = InitializationSettings(
+      android: androidSettings,
+      iOS: iosSettings,
+    );
+    await localNotification.initialize(settings);
   }
 }
