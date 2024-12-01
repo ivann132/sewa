@@ -19,7 +19,6 @@ class _EditprofileViewState extends State<EditprofileView> {
   final ImagePicker _picker = ImagePicker();
 
   final TextEditingController namacontrol = TextEditingController();
-  final TextEditingController alamatcontrol = TextEditingController();
   final TextEditingController nomercontrol = TextEditingController();
   File? _localImageFile;
 
@@ -37,7 +36,6 @@ class _EditprofileViewState extends State<EditprofileView> {
       // Load name from Firestore
       setState(() {
         namacontrol.text = userDoc['name'];
-        alamatcontrol.text = userDoc['address'] ?? '';
         nomercontrol.text = userDoc['phone'] ?? '';
       });
 
@@ -77,7 +75,6 @@ class _EditprofileViewState extends State<EditprofileView> {
     if (user != null) {
       await _firestore.collection('users').doc(user.uid).update({
         'name': namacontrol.text.trim(),
-        'address': alamatcontrol.text.trim(),
         'phone': nomercontrol.text.trim(),
       });
       Navigator.pop(context);
@@ -112,11 +109,6 @@ class _EditprofileViewState extends State<EditprofileView> {
             TextField(
               controller: namacontrol,
               decoration: const InputDecoration(labelText: "Name"),
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: alamatcontrol,
-              decoration: const InputDecoration(labelText: "Address"),
             ),
             const SizedBox(height: 16),
             TextField(

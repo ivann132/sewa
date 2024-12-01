@@ -4,9 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:sewa/app/modules/home/views/address_select_view.dart';
 import 'package:sewa/app/modules/home/views/cart_view.dart';
 import 'package:sewa/app/modules/home/views/editprofile_view.dart';
 import 'package:sewa/app/modules/home/views/notif_view.dart';
+import 'package:sewa/app/modules/home/views/select_location_view.dart';
 
 import '../../../controllers/auth_controller.dart';
 
@@ -73,6 +75,15 @@ class _ProfileViewState extends State<ProfileView> {
                 },
               title: const Text('Ganti Profil'),
               leading: const Icon(Icons.person),
+            ),
+            ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SelectLocationPage()),);
+              },
+              title: const Text('Ganti Alamat'),
+              leading: const Icon(Icons.home),
             ),
             ListTile(
               onTap: () {
