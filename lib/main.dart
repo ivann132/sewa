@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sewa/dependency_injection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'app/controllers/auth_controller.dart';
 import 'app/controllers/notification_handler.dart';
@@ -19,6 +20,7 @@ void main() async {
   await firebaseMessagingHandler.initPushNotification();
   await firebaseMessagingHandler.initLocalNotification();
   runApp(MyApp());
+  DependencyInjection.init();
 }
 
 class MyApp extends StatelessWidget {
