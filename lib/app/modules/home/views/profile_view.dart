@@ -80,7 +80,7 @@ class _ProfileViewState extends State<ProfileView> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SelectLocationPage()),);
+                  MaterialPageRoute(builder: (context) => const AddressSelectView()),);
               },
               title: const Text('Ganti Alamat'),
               leading: const Icon(Icons.home),

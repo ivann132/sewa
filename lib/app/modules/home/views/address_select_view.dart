@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+
+import 'order_tracking_view.dart';
 
 class AddressSelectView extends StatefulWidget {
   const AddressSelectView({super.key});
@@ -104,6 +106,14 @@ class _AddressSelectViewState extends State<AddressSelectView> {
             ElevatedButton(
               onPressed: _openGoogleMaps,
               child: const Text('Buka Google Maps'),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Navigate to tracking page
+                Get.to(() => OrderTrackingPage());
+              },
+              child: const Text('Save Address'),
             ),
           ],
         ),

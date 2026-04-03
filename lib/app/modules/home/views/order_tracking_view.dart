@@ -6,7 +6,7 @@ import 'package:latlong2/latlong.dart';
 import '../controllers/location_controller.dart';
 
 class OrderTrackingPage extends StatelessWidget {
-  final LocationController locationController = Get.find();
+  final locationController = Get.put(LocationController());
 
   @override
   Widget build(BuildContext context) {

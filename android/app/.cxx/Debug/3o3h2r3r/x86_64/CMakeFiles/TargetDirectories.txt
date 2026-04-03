@@ -1,0 +1,2 @@
+C:/Users/ivanp/AndroidStudioProjects/sewa/android/app/.cxx/Debug/3o3h2r3r/x86_64/CMakeFiles/edit_cache.dir
+C:/Users/ivanp/AndroidStudioProjects/sewa/android/app/.cxx/Debug/3o3h2r3r/x86_64/CMakeFiles/rebuild_cache.dir
